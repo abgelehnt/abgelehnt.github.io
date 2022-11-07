@@ -4,7 +4,7 @@
 
 ## 姿态拟合
 
-AHRS陀螺仪姿态解算算法大致分三类：Mahony互补滤波，扩展卡尔曼EKF姿态融合，梯度下降。其中，互补滤波的抖动实在恐怖，EKF的运算量过大，梯度下降算法是最好用的，更重要的是：已经有大佬开源了此算法[xioTechnologies/Fusion](https://github.com/xioTechnologies/Fusion)
+AHRS陀螺仪姿态解算算法主流的有三类：Mahony互补滤波，扩展卡尔曼EKF姿态融合，梯度下降。其中，互补滤波的抖动实在恐怖，EKF的运算量过大，梯度下降算法是最好用的，更重要的是：已经有大佬开源了此算法[xioTechnologies/Fusion](https://github.com/xioTechnologies/Fusion)
 
 ## 串级PID调参经验
 
@@ -31,5 +31,45 @@ if (SpeedOut >= SPEED_DECREASE_LIMIT)
 	SpeedOut = SPEED_DECREASE_LIMIT;
 else if (SpeedOut <= -SPEED_LIMIT)
 	SpeedOut = -SPEED_LIMIT;
+```
+
+## 转向环
+
+``` c
+float TurnSpeedPIDLoc() {
+	float Turn_Out;
+
+	if (!BlobFoundFlag) {
+		Turn_Out = arm_pid_f32(&TurnSpeed, (float) IMU_Data.gyro_z - BlobNotFoundTurn);
+		if (Turn_Out < 0)
+			Turn_Out = 0;
+	} else {
+		float AngleError = DegreeK * (-TargetAngle);
+		if (AngleError > TurnLimit) {
+			AngleError = TurnLimit;
+			BlobFoundFlag++;
+
+			Turn_Out = arm_pid_f32(&TurnSpeed, (float) IMU_Data.gyro_z - AngleError);
+			if(Turn_Out > 0)
+				Turn_Out = 0;
+		} else if (AngleError < -TurnLimit) {
+			AngleError = -TurnLimit;
+			BlobFoundFlag++;
+
+			Turn_Out = arm_pid_f32(&TurnSpeed, (float) IMU_Data.gyro_z - AngleError);
+			if(Turn_Out < 0)
+				Turn_Out = 0;
+		} else {
+			BlobFoundFlag = 1;
+
+			Turn_Out = arm_pid_f32(&TurnSpeed, (float) IMU_Data.gyro_z - AngleError);
+		}
+	}
+
+	/// 关闭转向环
+//	TargetTurnSpeed = 0;
+
+	return Turn_Out;
+}
 ```
 
