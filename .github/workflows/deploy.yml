@@ -18,13 +18,6 @@ jobs:
         uses: peaceiris/actions-mdbook@v1
         with:
           mdbook-version: 'latest'
-          
-      - name: Read .env
-        id: mdbook-version
-        run: |
-          . ./.env
-          echo "::set-output name=MDBOOK_VERSION::${MDBOOK_VERSION}"
-
 
       - run: mdbook build
 
