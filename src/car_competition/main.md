@@ -6,8 +6,8 @@
 
 - [其他篇](./else.md)
 
-![left_view](./left_view.jpg)
+![left_view](left_view.webp)
 
-![top_view](./top_view.jpg)
+![top_view](top_view.webp)
 
 完成于2022年11月
