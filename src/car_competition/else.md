@@ -41,7 +41,7 @@ void UartFloat(float *pData, uint32_t number) {
 
 众所周知，Keil的调试功能和编译功能是比较好用的，而编辑器及其难用。我们使用Clion作为代码编辑器，他强大的代码补全和提示功能可以极大的加快写代码的速度。
 
-MM32与STM32相似，Clion的配置可以参考稚晖君的[配置CLion用于STM32开发【优雅の嵌入式开发】]([配置CLion用于STM32开发【优雅の嵌入式开发】 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/145801160))
+MM32与STM32相似，Clion的配置可以参考稚晖君的[配置CLion用于STM32开发【优雅の嵌入式开发】](https://zhuanlan.zhihu.com/p/145801160))
 
 #### 代码版本管理
 
