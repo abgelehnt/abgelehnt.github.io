@@ -30,13 +30,30 @@ jobs:
     - name: Install mdbook
       run: |
         mkdir mdbook
-        curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.21/mdbook-v0.4.21-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
+        curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.37/mdbook-v0.4.37-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
         echo `pwd`/mdbook >> $GITHUB_PATH
     - name: Deploy GitHub Pages
       run: |
         # This assumes your book is in the root of your repository.
         # Just add a `cd` here if you need to change to another directory.
         mdbook build
+    - name: Copy robot.txt
+      run: |
+        cp robots.txt book/robots.txt
+    - name: Download Sitemap
+      run: |
+        wget https://github.com/rxdn/mdbook-sitemap-generator/releases/download/v0.1.0/mdbook-sitemap-generator-x86_64-unknown-linux-gnu
+        mv mdbook-sitemap-generator-x86_64-unknown-linux-gnu mdbook-sitemap-generator
+        chmod +x mdbook-sitemap-generator
+    - name: Generate Sitemap
+      run: |
+        mdbook-sitemap-generator -d abgelehnt.github.io -o book/sitemap.xml
+    - name: ls files
+      run: |
+        echo "book:"
+        ls book
+        echo "."
+        ls
     - name: Setup Pages
       uses: actions/configure-pages@v2
     - name: Upload artifact
