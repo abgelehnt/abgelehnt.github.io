@@ -47,7 +47,7 @@ jobs:
         chmod +x mdbook-sitemap-generator
     - name: Generate Sitemap
       run: |
-        mdbook-sitemap-generator -d abgelehnt.github.io -o book/sitemap.xml
+        ./mdbook-sitemap-generator -d abgelehnt.github.io -o book/sitemap.xml
     - name: ls files
       run: |
         echo "book:"
