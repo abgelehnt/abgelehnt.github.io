@@ -38,7 +38,7 @@ jobs:
         mdbook build
     - name: Copy robot.txt
       run: |
-        cp robots.txt book/robots.txt
+        cp items/* book/
     - name: Generate Sitemap
       run: |
         mdbook-sitemap-generator -d abgelehnt.github.io -o book/sitemap.xml
