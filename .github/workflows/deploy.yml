@@ -42,6 +42,7 @@ jobs:
     - name: Generate Sitemap
       run: |
         mdbook-sitemap-generator -d abgelehnt.github.io -o book/sitemap.xml
+        sed -i -e 's/urls>/url>/g' book/sitemap.xml
     - name: ls files
       run: |
         echo "book:"
