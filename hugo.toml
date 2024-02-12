@@ -1,0 +1,4 @@
+baseURL = 'https://abgelehnt.github.io/'
+languageCode = 'en-us'
+title = 'Chi的个人博客'
+theme = ["PaperMod"]

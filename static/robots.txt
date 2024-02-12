@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /FontAwesome/
+Disallow: /css/
+Disallow: /fonts/
+
+Sitemap: https://abgelehnt.github.io/sitemap.xml
