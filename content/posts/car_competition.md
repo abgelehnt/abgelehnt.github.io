@@ -1,7 +1,10 @@
 +++
-title = '全国大学生智能汽车竞赛'
-date = 2022-11-12T22:16:12+08:00
-url = '/posts/car_competition.html'
+title = '全国大学生智能汽车竞赛赛后经验总结'
+date = 2022-11-12
+tags = ["智能车"]
+summary = "参加第十七届全国大学生智能汽车竞赛后的经验总结"
+[sitemap]
+priority = 0.9
 
 +++
 
@@ -11,7 +14,7 @@ url = '/posts/car_competition.html'
 
 ## 姿态拟合
 
-AHRS陀螺仪姿态解算算法主流的有三类：Mahony互补滤波，扩展卡尔曼EKF姿态融合，梯度下降。其中，互补滤波的抖动实在恐怖，EKF的运算量过大，梯度下降算法是最好用的，更重要的是：已经有大佬开源了此算法[xioTechnologies/Fusion](https://github.com/xioTechnologies/Fusion)
+AHRS陀螺仪姿态解算算法主流的有三类：Mahony互补滤波，扩展卡尔曼EKF姿态融合，梯度下降。其中，互补滤波的抖动实在恐怖，EKF的运算量过大，梯度下降算法是最好用的，更重要的是：已经有大佬开源了此算法：[xioTechnologies/Fusion](https://github.com/xioTechnologies/Fusion)
 
 ## 串级PID调参经验
 
@@ -288,6 +291,8 @@ MM32与STM32相似，Clion的配置可以参考稚晖君的[配置CLion用于STM
 - 里面多填一份海绵：有用。更重要的是保持海绵平整，龙邱有环状的海绵可以购买尝试。看到往年有队伍在轮胎里多填充两份海绵，我们尝试过后发现多填充两份会导致海绵无法平整，反而得不偿失。
 - 对轮胎进行封边：有用。主要是为了防止轮胎甩出来。
 - 保持轮胎干净：极有用。在轮胎面软化过后，只要有一点点的灰就会疯狂打滑。比赛时需要时刻保持轮胎面清洁。我们比赛时使用WD-40并在每次发车前涂抹，清洁效果极好。
+
+
 
 
 
