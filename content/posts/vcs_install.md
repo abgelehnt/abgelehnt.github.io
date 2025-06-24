@@ -47,8 +47,8 @@ export PATH="$SYNOPSYS/scl/2018.06/linux64/bin:"$PATH
 # lmli进程自启动
 
 ```bash
-$ mkdir -p .config/systemd/user/
-$ vi .config/systemd/user/lmgrd.service
+$ mkdir -p ~/.config/systemd/user/
+$ vi ~/.config/systemd/user/lmgrd.service
 [Unit]
 Description=FlexLM license server daemon(VCS)
 Wants=network-online.target
