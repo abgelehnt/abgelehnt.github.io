@@ -3,6 +3,7 @@
 title = 'VNC Server 自启动配置指南'
 date = 2025-06-24
 tags = ["软件安装教程"]
+summary = '本文介绍了如何配置 VNC Server 作为 systemd 用户服务实现开机自启动，包括 GNOME Flashback 桌面环境的 xstartup 配置、systemd 服务单元文件的创建，以及常用的服务管理命令。适用于需要远程桌面访问的 Linux 用户，确保 VNC 服务在系统启动后自动运行。'
 
 +++
 
@@ -47,6 +48,9 @@ WantedBy=default.target
 常用 systemd 用户服务管理命令：
 
 ```bash
+# 该命令允许你在用户会话结束后，仍然保持用户的systemd实例，使得用户定义的单元可以在用户退出后继续运行。
+sudo loginctl enable-linger <user_name> 
+
 # 启动服务
 systemctl --user start vncserver.service
 

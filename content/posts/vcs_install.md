@@ -9,7 +9,7 @@ summary = '本文阐述VCS&Verdi安装教程与安装最佳实践。'
 
 # 安装目录与安装用户
 
-推荐使用专用用户<tools>，然后将所有工具安装到用户的家目录中
+推荐新建专用用户\<tools>，然后将所有工具安装到专用用户的家目录中，确保其他用户在操作时不会误删除工具链
 
 # VCS安装教程
 
@@ -72,6 +72,8 @@ $ systemctl --user enable lmgrd.service
 $ systemctl --user status lmgrd.service
 $ systemctl --user stop lmgrd.service
 ```
+
+# 可能的错误
 
 如果lmgrd.service执行时出现Permission Denied: locksnpslmd文件出现
 ```bash
