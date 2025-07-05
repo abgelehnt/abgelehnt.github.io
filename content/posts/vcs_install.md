@@ -1,17 +1,18 @@
 +++
 
-title = 'VCS&Verdi安装教程'
+title = 'VCS与Verdi安装指南'
 date = 2025-06-22
-draft = true
-summary = '本文阐述VCS&Verdi安装教程与安装最佳实践。'
+summary = '详细说明VCS和Verdi工具的安装配置流程及常见问题解决方法'
 
 +++
 
-# 安装目录与安装用户
+# 安装环境准备
 
-推荐新建专用用户\<tools>，然后将所有工具安装到专用用户的家目录中，确保其他用户在操作时不会误删除工具链
+推荐方案：创建专用用户`tools`，所有EDA工具安装在该用户家目录下，避免权限冲突。
 
-# VCS安装教程
+# VCS环境配置
+
+以下为VCS和Verdi所需的环境变量设置：
 
 ```bash
 export SYNOPSYS="/home/tools/synopsys"
@@ -32,7 +33,7 @@ export LD_LIBRARY_PATH="$NOVAS_INST_DIR/share/NPI/lib/LINUX64_GNU_520":$LD_LIBRA
 export NOVAS_HOME="$SYNOPSYS/verdi/Verdi_O-2018.09-SP2"
 
 #LICENSE
-export SNPSLMD_LICENSE_FILE=27000@hg
+export SNPSLMD_LICENSE_FILE=27000@`hostname`
 export LM_LICENSE_FILE="$SYNOPSYS/license/Synopsys.dat"
 
 #SCL
@@ -44,7 +45,24 @@ export PATH="$SYNOPSYS/scl/2018.06/linux64/bin:"$PATH
 # alias vcs="vcs -full64"
 ```
 
-# lmli进程自启动
+# License文件生成
+
+在Windows系统中使用scl_keygen.exe生成License文件时，需更改以下参数：
+
+| 参数项 | 说明 |
+|--------|------|
+| HOST ID Daemon | 主机MAC地址（通过`lmhostid`获取） |
+| HOST ID Feature | 同上 |
+| HOST Name | 主机名（通过`hostname`获取） |
+
+注意：
+
+- 多网卡设备执行`lmhostid`会出现多个MAC地址，仅需填写一个MAC地址
+- 避免使用USB网卡等可插拔设备的MAC地址
+
+# License服务自启动
+
+创建systemd服务单元文件：
 
 ```bash
 $ mkdir -p ~/.config/systemd/user/
@@ -64,25 +82,33 @@ ExecStop=/home/tools/synopsys/scl/2018.06/linux64/bin/lmdown -q
 WantedBy=default.target
 ```
 
+服务管理命令：
+
 ```bash
-# 使用systemctl --user命令需要避免使用su命令更改用户
+# 启用用户级服务
 sudo loginctl enable-linger tools # 选项允许你在用户会话结束后，仍然保持用户的systemd 实例，使得用户定义的单元可以在用户退出后继续运行。
-$ systemctl --user start lmgrd.service 
-$ systemctl --user enable lmgrd.service 
-$ systemctl --user status lmgrd.service
-$ systemctl --user stop lmgrd.service
+# 使用systemctl --user命令需要避免使用su命令更改用户
+systemctl --user start lmgrd.service
+systemctl --user enable lmgrd.service
+
+# 查看服务状态
+systemctl --user status lmgrd.service
+# 实时查看lmgrd.service输出的日志（Ctrl+C退出）
+journalctl --user -u -f lmgrd.service
+
+# 停止服务
+systemctl --user stop lmgrd.service
 ```
 
-# 可能的错误
 
-如果lmgrd.service执行时出现Permission Denied: locksnpslmd文件出现
+# 常见问题解决
+
+1. Permission Denied: locksnpslmd文件出现
+
 ```bash
 $ sudo rm /var/tmp/lock*
 ```
 
-(lmgrd) Failed to open the TCP port number in the license.
-关闭
-```bash
-lmdown -q
-```
-然后等待1分钟
+2. (lmgrd) Failed to open the TCP port number in the license.
+
+停止lmgrd.service，然后等待1分钟
